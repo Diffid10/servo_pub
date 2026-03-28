@@ -47,4 +47,43 @@ namespace Servo_For_Chun {
 
         currentAngle = end
     }
+    //% blockId=servo_tune
+    //% block="set servo %pin by buttons (A=+, B=-, A+B=ok)"
+    //% weight=110
+    export function tuneServo(pin: AnalogPin): number {
+
+        let angle = 90
+        let done = false
+
+        pins.servoWritePin(pin, angle)
+
+        input.onButtonPressed(Button.A, function () {
+            if (!done) {
+                angle += 1
+                if (angle > 180) angle = 180
+                pins.servoWritePin(pin, angle)
+                basic.showNumber(angle)
+            }
+        })
+
+        input.onButtonPressed(Button.B, function () {
+            if (!done) {
+                angle -= 1
+                if (angle < 0) angle = 0
+                pins.servoWritePin(pin, angle)
+                basic.showNumber(angle)
+            }
+        })
+
+        input.onButtonPressed(Button.AB, function () {
+            done = true
+            basic.clearScreen()
+        })
+
+        while (!done) {
+            basic.pause(50)
+        }
+
+        return angle
+    }
 }

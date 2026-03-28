@@ -11,7 +11,7 @@ namespace SmoothServo {
 
         for (let i = 0; i <= steps; i++) {
 
-            // 🔥 easing function (smooth motion)
+            //  easing function (smooth motion)
             let t = i / steps
             let ease = t * t * (3 - 2 * t)   // smoothstep
 

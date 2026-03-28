@@ -1,5 +1,4 @@
-//% color=#FF6F00 icon="\uf085"
-namespace SmartServo {
+namespace Servo_For_Chun {
 
     let currentAngle = 90
 

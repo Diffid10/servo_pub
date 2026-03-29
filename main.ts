@@ -1,4 +1,4 @@
-namespace Servo_For_Chun {
+namespace Servo_Advaune {
 
     let currentAngle = 90
 
@@ -26,13 +26,14 @@ namespace Servo_For_Chun {
         currentAngle = target
     }
 
-    //% blockId=servo_move_smooth
-    //% block="servo %pin from %start to %end in %time ms (smooth)"
-    //% weight=80
+    //% blockId=smooth_servo_move
+    //% block="servo %pin|from %start to %end in %time ms (smooth)"
     export function moveSmooth(pin: AnalogPin, start: number, end: number, time: number): void {
 
         let steps = Math.abs(end - start)
         if (steps == 0) return
+
+        let direction = start < end ? 1 : -1
 
         for (let i = 0; i <= steps; i++) {
 
@@ -44,34 +45,32 @@ namespace Servo_For_Chun {
             pins.servoWritePin(pin, angle)
             basic.pause(time / steps)
         }
-
-        currentAngle = end
     }
     //% blockId=servo_tune
     //% block="set servo %pin by buttons (A=+, B=-, A+B=ok)"
     //% weight=110
     export function tuneServo(pin: AnalogPin): number {
 
-        let angle = 90
+        let angle2 = 90
         let done = false
 
-        pins.servoWritePin(pin, angle)
+        pins.servoWritePin(pin, angle2)
 
         input.onButtonPressed(Button.A, function () {
             if (!done) {
-                angle += 1
-                if (angle > 180) angle = 180
-                pins.servoWritePin(pin, angle)
-                basic.showNumber(angle)
+                angle2 += 1
+                if (angle2 > 180) angle2 = 180
+                pins.servoWritePin(pin, angle2)
+                basic.showNumber(angle2)
             }
         })
 
         input.onButtonPressed(Button.B, function () {
             if (!done) {
-                angle -= 1
-                if (angle < 0) angle = 0
-                pins.servoWritePin(pin, angle)
-                basic.showNumber(angle)
+                angle2 -= 1
+                if (angle2 < 0) angle2 = 0
+                pins.servoWritePin(pin, angle2)
+                basic.showNumber(angle2)
             }
         })
 
@@ -84,6 +83,6 @@ namespace Servo_For_Chun {
             basic.pause(50)
         }
 
-        return angle
+        return angle2
     }
 }
